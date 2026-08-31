@@ -1,0 +1,52 @@
+model:
+  num_classes: 2
+  image_size: 224
+  num_qubits: 8
+  quantum_layers: 3
+  cnn_channels: [32, 64, 128, 256]
+  dropout: 0.4
+  use_attention: true
+  use_residual: true
+
+quantum:
+  n_qubits: 8
+  n_layers: 3
+  encoding: "amplitude"   # "amplitude" or "angle"
+  device: "default.qubit"
+  diff_method: "best"
+
+training:
+  batch_size: 32
+  epochs: 50
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  scheduler: "cosine"
+  warmup_epochs: 5
+  early_stopping_patience: 10
+  mixed_precision: true
+  gradient_clip: 1.0
+
+data:
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  num_workers: 4
+  pin_memory: true
+  augmentation: true
+  datasets:
+    - name: "FaceForensics++"
+      path: "data/ff++"
+    - name: "DFDC"
+      path: "data/dfdc"
+    - name: "CelebDF"
+      path: "data/celebdf"
+
+evaluation:
+  metrics: ["accuracy", "auc_roc", "f1", "precision", "recall"]
+  threshold: 0.5
+
+paths:
+  data_root: "data/"
+  checkpoint_dir: "checkpoints/"
+  log_dir: "logs/"
+  results_dir: "results/"
